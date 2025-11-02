@@ -1,5 +1,10 @@
 |-- .gitattributes
+|-- .gitignore
 |-- app.py
+|-- CODE_STRUCTURE.md
+|-- CONTRIBUTING.md
+|-- DATASET_INFO.md
+|-- DOCUMENTATION_INDEX.md
 |-- FloodDataset
     |-- test
         |-- damage
@@ -761,6 +766,8 @@
 |-- notebook
     |-- Flood-Detection-Using-Deep-Learning-Satellite-Images.ipynb
     |-- renamed_image_data.csv
+|-- QUICKSTART.md
+|-- README.md
 |-- requirements.txt
 |-- templates
     |-- index.html
