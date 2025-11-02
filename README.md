@@ -135,6 +135,6 @@ TensorFlow not found
 
 👨‍💻 Author
 
-Developed by: Netflix For
+Developed by: @samarthpatilML For
 Role: Python Developer | Deep Learning Enthusiast
 Tech Stack: Flask · TensorFlow · OpenCV · HTML/CSS/JS
