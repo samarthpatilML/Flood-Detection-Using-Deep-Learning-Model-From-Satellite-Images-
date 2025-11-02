@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flood Detection App</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 400px;
+    }
+
+    h1 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 15px auto;
+    }
+
+    #imagePreview {
+      display: none;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 10px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    }
+
+    #imageSpinner {
+      display: none;
+      margin: 20px auto;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0077b6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    button {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #005f87;
+    }
+
+    #captionResult {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #023047;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌊 Flood Detection</h1>
+
+    <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" />
+    <img id="imagePreview" alt="Preview Image" />
+
+    <div id="imageSpinner"></div>
+    <button onclick="submitImage()">Predict</button>
+
+    <div id="captionResult"></div>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      var imageInput = document.getElementById('imageInput');
+      var imagePreview = document.getElementById('imagePreview');
+      imagePreview.style.display = 'block';
+      var reader = new FileReader();
+      reader.onload = function() {
+        imagePreview.src = reader.result;
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    }
+
+    function submitImage() {
+      var imageInput = document.getElementById('imageInput');
+      var imageSpinner = document.getElementById('imageSpinner');
+      var captionResult = document.getElementById('captionResult');
+      var file = imageInput.files[0];
+
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      imageSpinner.style.display = 'block';
+      captionResult.innerHTML = '';
+
+      var formData = new FormData();
+      formData.append('image', file);
+
+      var request = new XMLHttpRequest();
+      request.open('POST', '/predict', true);
+      request.onload = function() {
+        imageSpinner.style.display = 'none';
+
+        if (request.status >= 200 && request.status < 400) {
+          var response = JSON.parse(request.responseText);
+          if (response.status === 'success') {
+            captionResult.innerHTML = 
+              `Prediction: ${response.prediction}<br>Probability: ${response.probability}`;
+          } else {
+            captionResult.innerHTML = "Error: " + response.error;
+          }
+        } else {
+          alert("An error occurred while processing the image.");
+        }
+      };
+      request.send(formData);
+    }
+  </script>
+</body>
+</html>

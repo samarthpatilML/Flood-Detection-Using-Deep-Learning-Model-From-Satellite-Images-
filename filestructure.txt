@@ -1,4 +1,5 @@
 |-- .gitattributes
+|-- app.py
 |-- FloodDataset
     |-- test
         |-- damage
@@ -755,8 +756,11 @@
             |-- 96.5884_9.9191.jpg
             |-- 96.6986_16.8365.jpg
             |-- 96.7804_17.3655.jpg
+|-- model
+    |-- flood_detection_trained_model.h5
 |-- notebook
     |-- Flood-Detection-Using-Deep-Learning-Satellite-Images.ipynb
-    |-- model
-        |-- flood_detection_trained_model.h5
     |-- renamed_image_data.csv
+|-- requirements.txt
+|-- templates
+    |-- index.html
